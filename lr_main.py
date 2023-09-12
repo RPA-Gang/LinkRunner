@@ -1,6 +1,9 @@
+import os
+
 from CustomClasses import Command, Dict
 from Dependencies import DataHelper, DictHelper, StringHelper, VMHelper
-import os
+
+from rich import print
 
 os.system("cls")
 # noinspection SpellCheckingInspection
