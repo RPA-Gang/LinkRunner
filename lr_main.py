@@ -28,18 +28,27 @@ def connect(virtual_machines: dict, _target=None) -> bool:
         _target = None
     else:
         return True
+
+
 # ----------------------- End of Helper Functions -----------------------
 
 
 def startup() -> Dict:
     """Function runs on startup; retrieves, cleans and returns necessary data."""
     print("/* Welcome to LinkRunner 2049 - Fetching links...")
-    hyperlinks = DataHelper.retrieve_links(url=url)
-    hyperlinks_clean_keys = DictHelper.dict_cleanup(data=hyperlinks,
-                                                    target=r"LG | VB")
-    offensive_values: list = [v for v in hyperlinks_clean_keys.values() if not v.startswith(vital_prefix)]
-    hyperlinks_filtered = Dict(DictHelper.filter_values(data=hyperlinks_clean_keys,
-                                                        values=offensive_values))
+    hyperlinks: dict = DataHelper.retrieve_links(url=url)
+    hyperlinks_clean_keys: dict = DictHelper.dict_cleanup(data=hyperlinks,
+                                                          target=r"LG | VB")
+    offensive_values: list = []
+
+    for v in hyperlinks_clean_keys.values():
+        if v is None or not str(v).startswith(vital_prefix):
+            offensive_values.append(v)
+        else:
+            continue
+
+    hyperlinks_filtered: Dict = Dict(DictHelper.filter_values(data=hyperlinks_clean_keys,
+                                                              values=offensive_values))
     print("/* Data aggregation complete!\n")
     return hyperlinks_filtered
 
